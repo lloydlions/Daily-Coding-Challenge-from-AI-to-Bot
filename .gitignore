@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.env
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Telegram bot specific
+daily_challenge.md
