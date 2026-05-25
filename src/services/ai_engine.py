@@ -1,4 +1,4 @@
-import google.generativeai as genai
+import google.genai as genai # Changed import from google.generativeai
 import os
 
 class AIEngine:
@@ -6,8 +6,9 @@ class AIEngine:
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise ValueError("GEMINI_API_KEY environment variable is missing.")
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        self.client = genai.Client(api_key=api_key)
+        # Changed model from 'gemini-1.5-flash' to 'gemini-2.5-flash' for compatibility with new SDK
+        self.model_name = 'gemini-2.5-flash'
 
     async def generate_challenge(self, lang: str, difficulty: str, framework: str, context: str) -> str:
         prompt = f"""
@@ -43,5 +44,8 @@ class AIEngine:
         // Minimal starter code for the solution
         ```
         """
-        response = await self.model.generate_content_async(prompt)
+        response = await self.client.aio.models.generate_content(
+            model=self.model_name,
+            contents=prompt
+        )
         return response.text

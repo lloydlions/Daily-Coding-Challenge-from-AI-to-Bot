@@ -1,12 +1,16 @@
 import asyncio
 import random
 import yaml
+from dotenv import load_dotenv # Import load_dotenv
 from config.schema import BotConfig
 from strategies.language_strategy import get_strategy
 from services.ai_engine import AIEngine
 from services.telegram_service import TelegramService
 
 async def main():
+    # Load environment variables from .env file
+    load_dotenv() 
+
     print("Loading configuration...")
     with open("config.yaml", "r") as f:
         config = BotConfig.model_validate(yaml.safe_load(f))

@@ -10,7 +10,7 @@ This project implements a Telegram bot that generates daily coding challenges us
 *   **Multi-Language Support**: Configurable to generate challenges in various programming languages (e.g., Java, JavaScript, Python, Go), each with specific idiomatic contexts.
 *   **Pydantic Configuration Validation**: Ensures robust and type-safe configuration management using Pydantic v2.
 *   **Asynchronous Design**: Built with `asyncio` and `python-telegram-bot` (v20+) for efficient, non-blocking I/O operations.
-*   **Telegram Delivery**: Sends challenges as Markdown files directly to a Telegram chat or channel.
+*   **Telegram Delivery**: Parses and sends the challenge summary (problem, pro-tip, lesson) as a text message, followed by the full Markdown file directly to a Telegram chat or channel.
 *   **GitHub Actions Automation**: Scheduled workflows to automatically generate and send challenges daily.
 
 ## Project Structure

@@ -3,7 +3,9 @@
 ## **Code Review Summary**
 
 Overall, the implementation is highly robust. It effectively uses the Strategy pattern for language context, Pydantic (v2) for configuration validation, and python-telegram-bot (v20+) with proper asynchronous design.  
-**Recommended Improvement Applied:** The original codebase used the synchronous generate\_content() method for Gemini inside an asynchronous main() loop. I have updated ai\_engine.py to use await self.model.generate\_content\_async() and updated main.py to await it. This ensures the script is completely non-blocking, which is best practice when mixing I/O operations.
+**Recent Improvements Applied:** 
+- Migrated from `google-generativeai` to the new `google-genai` SDK and updated the model to `gemini-2.5-flash`.
+- Updated `telegram_service.py` to manage bot sessions with an `async with` block and added logic to extract the problem statement, pro-tip, and lesson into a separate Telegram text message to improve mobile readability.
 
 ## **1\. Project Layout [COMPLETED]**
 
@@ -30,10 +32,11 @@ Overall, the implementation is highly robust. It effectively uses the Strategy p
 
 ## **2\. Dependencies (requirements.txt) [COMPLETED]**
 
-google-generativeai\>=0.4.0  
-python-telegram-bot\>=20.7  
-pydantic\>=2.5.3  
-PyYAML\>=6.0.1
+google-genai>=0.1.0  
+python-telegram-bot>=20.7  
+pydantic>=2.5.3  
+PyYAML>=6.0.1
+python-dotenv>=1.0.0
 
 ## **3\. Configuration (config.yaml) [COMPLETED]**
 
@@ -92,10 +95,13 @@ jobs:
 ### **src/strategies/language\_strategy.py [COMPLETED]**
 
 ### **src/services/ai\_engine.py [COMPLETED]**
+(Updated to use the new `google-genai` SDK and `gemini-2.5-flash` model for better performance and compatibility)
 
 ### **src/services/telegram\_service.py [COMPLETED]**
+(Updated to extract problem statement, pro-tip, and lesson as a text message before sending the Markdown file)
 
 ### **src/main.py [COMPLETED]**
+(Updated to include `load_dotenv()` for local testing)
 
 ## **6\. Documentation [COMPLETED]**
 
@@ -104,3 +110,60 @@ jobs:
 ## **7\. Git Configuration [COMPLETED]**
 
 ### **.gitignore [COMPLETED]**
+
+## **8\. Local Testing Setup [COMPLETED]**
+
+To test the bot locally, follow these steps:
+
+### **8.1. Create and Activate a Virtual Environment (Recommended)**
+
+It's best practice to use a virtual environment to manage project dependencies.
+
+*   **Create a virtual environment:**
+    ```bash
+    python -m venv venv
+    ```
+    (This creates a folder named `venv` in your project root.)
+
+*   **Activate the virtual environment:**
+    *   **On Linux/macOS:**
+        ```bash
+        source venv/bin/activate
+        ```
+    *   **On Windows (Command Prompt):**
+        ```bash
+        venv\Scripts\activate.bat
+        ```
+    *   **On Windows (PowerShell):**
+        ```bash
+        venv\Scripts\Activate.ps1
+        ```
+    You should see `(venv)` at the beginning of your terminal prompt, indicating the virtual environment is active.
+
+### **8.2. Install Dependencies**
+
+With your virtual environment activated, install all required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### **8.3. Create the `.env` File**
+
+In the root directory of your project (the same directory where `src/` and `config.yaml` are located), create a file named `.env` and add your credentials:
+
+```
+TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
+TELEGRAM_CHAT_ID="YOUR_TELEGRAM_CHAT_ID"
+GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+```
+**Remember to replace the placeholder values** with your actual Telegram bot token, chat ID, and Gemini API key.
+
+### **8.4. Run the Bot Locally**
+
+With the virtual environment active and dependencies installed, you can now run the bot:
+
+```bash
+PYTHONPATH=. python src/main.py
+```
+This command will execute the bot, generate a challenge, and attempt to send it to your configured Telegram chat. You should see output in your terminal indicating the progress, and if successful, a message in your Telegram chat.
