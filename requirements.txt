@@ -1,4 +1,4 @@
-google-genai>=0.1.0 # Updated from google-generativeai
+openai>=1.0.0
 python-telegram-bot>=20.7
 pydantic>=2.5.3
 PyYAML>=6.0.1
