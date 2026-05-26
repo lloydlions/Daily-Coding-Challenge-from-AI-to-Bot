@@ -49,3 +49,11 @@ class TelegramService:
                     document=f, 
                     caption="💻 Here is the full code setup and boilerplate!"
                 )
+
+    async def send_error(self, error: Exception):
+        message = f"Error encountered: {error}"
+        async with self.bot:
+            await self.bot.send_message(
+                chat_id=self.chat_id,
+                text=message
+            )

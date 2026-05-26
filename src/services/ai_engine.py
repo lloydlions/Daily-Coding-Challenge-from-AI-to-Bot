@@ -1,14 +1,16 @@
-import google.genai as genai # Changed import from google.generativeai
+from openai import AsyncOpenAI
 import os
 
 class AIEngine:
     def __init__(self):
-        api_key = os.getenv("GEMINI_API_KEY")
+        api_key = os.getenv("OPENROUTER_API_KEY")
         if not api_key:
-            raise ValueError("GEMINI_API_KEY environment variable is missing.")
-        self.client = genai.Client(api_key=api_key)
-        # Changed model from 'gemini-1.5-flash' to 'gemini-2.5-flash' for compatibility with new SDK
-        self.model_name = 'gemini-2.5-flash'
+            raise ValueError("OPENROUTER_API_KEY environment variable is missing.")
+        self.client = AsyncOpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=api_key,
+        )
+        self.model_name = "qwen/qwen-2.5-7b-instruct"
 
     async def generate_challenge(self, lang: str, difficulty: str, framework: str, context: str) -> str:
         prompt = f"""
@@ -44,8 +46,8 @@ class AIEngine:
         // Minimal starter code for the solution
         ```
         """
-        response = await self.client.aio.models.generate_content(
+        response = await self.client.chat.completions.create(
             model=self.model_name,
-            contents=prompt
+            messages=[{"role": "user", "content": prompt}],
         )
-        return response.text
+        return response.choices[0].message.content
