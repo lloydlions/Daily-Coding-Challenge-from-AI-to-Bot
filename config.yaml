@@ -1,5 +1,59 @@
-languages:
-  - name: "Java"
+timezone: "Asia/Manila"
+
+weekly_schedule:
+  monday: "java_core"
+  tuesday: "quarkus"
+  wednesday: "sql"
+  thursday: "python_data"
+  friday: "ai_api"
+  saturday: "review"
+  sunday: null
+
+tracks:
+  - key: "java_core"
+    name: "Java Core"
+    language: "Java"
     difficulty: "easy"
     test_framework: "JUnit 5"
     setup_cmd: "mvn test"
+    context: "Focus on Java 17+, clean object-oriented design, standard collections, and readable unit-testable code."
+
+  - key: "quarkus"
+    name: "Quarkus"
+    language: "Java"
+    difficulty: "easy"
+    test_framework: "JUnit 5 with QuarkusTest"
+    setup_cmd: "mvn test"
+    context: "Focus on Quarkus REST APIs, dependency injection, DTOs, validation, configuration, and small backend services."
+
+  - key: "sql"
+    name: "SQL"
+    language: "SQL"
+    difficulty: "easy"
+    test_framework: "SQLite"
+    setup_cmd: "sqlite3 challenge.db"
+    context: "Focus on practical querying, clean schema examples, joins, aggregation, and reporting-style questions."
+
+  - key: "python_data"
+    name: "Python Data Basics"
+    language: "Python"
+    difficulty: "easy"
+    test_framework: "pytest"
+    setup_cmd: "python -m pytest"
+    context: "Assume beginner data knowledge. Focus on Python, pandas basics, CSV/JSON handling, cleaning, and small ETL workflows."
+
+  - key: "ai_api"
+    name: "AI/API Mini Task"
+    language: "Python"
+    difficulty: "easy"
+    test_framework: "pytest"
+    setup_cmd: "python -m pytest"
+    context: "Focus on small AI/API integration tasks, structured inputs and outputs, validation, retries, and token-conscious design."
+
+  - key: "review"
+    name: "Review / Mixed Practice"
+    language: "Java"
+    difficulty: "easy"
+    test_framework: "JUnit 5"
+    setup_cmd: "mvn test"
+    context: "Focus on reviewing, refactoring, edge cases, readability, and strengthening previous concepts."

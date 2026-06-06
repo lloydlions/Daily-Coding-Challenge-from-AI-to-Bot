@@ -1,0 +1,73 @@
+tracks:
+  java_core:
+    topics:
+      - records and immutability
+      - stream grouping
+      - optional handling
+      - custom exceptions
+      - map frequency counter
+      - enum-driven business rules
+      - comparable and comparator sorting
+      - immutable collections
+      - file parsing with nio
+      - date and time calculations
+
+  quarkus:
+    topics:
+      - REST endpoint validation
+      - DTO mapping
+      - config properties
+      - dependency injection
+      - simple CRUD resource
+      - exception mapper
+      - health check endpoint
+      - repository pattern
+      - request payload validation
+      - application scoped service
+
+  sql:
+    topics:
+      - filtering and sorting
+      - inner joins
+      - left joins
+      - aggregation with group by
+      - having filters
+      - subqueries
+      - common table expressions
+      - window functions
+      - case expressions
+      - date-based reporting
+
+  python_data:
+    topics:
+      - reading CSV files
+      - cleaning null values
+      - grouping with pandas
+      - JSON normalization
+      - simple ETL pipeline
+      - type conversion
+      - duplicate row handling
+      - merging datasets
+      - basic data profiling
+      - exporting clean data
+
+  ai_api:
+    topics:
+      - calling an LLM API
+      - parsing JSON responses
+      - prompt input validation
+      - retry handling
+      - summarizing structured data
+      - tool result validation
+      - response schema checks
+      - simple agent loop
+      - context window budgeting
+      - error fallback response
+
+  review:
+    topics:
+      - refactor a previous solution
+      - explain a previous solution
+      - add edge cases to a solution
+      - optimize a simple algorithm
+      - turn notes into reusable snippets

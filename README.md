@@ -1,122 +1,85 @@
 # Daily Coding Challenge Telegram Bot
 
-## Overview
+This project generates a compact daily learning challenge with an AI model and sends it to Telegram.
 
-This project implements a Telegram bot that generates daily coding challenges using Google's Gemini AI and delivers them to a specified Telegram chat. The bot supports multiple programming languages, each with its own context and difficulty settings, ensuring a diverse and engaging learning experience.
+The bot now follows a weekly learning schedule instead of choosing a random language. It is designed for steady programming growth with Java, Quarkus, SQL, beginner Python data work, and small AI/API tasks. Sunday is a rest day.
+
+## Current Schedule
+
+| Day | Track |
+| --- | --- |
+| Monday | Java Core |
+| Tuesday | Quarkus |
+| Wednesday | SQL |
+| Thursday | Python Data Basics |
+| Friday | AI/API Mini Task |
+| Saturday | Review / Mixed Practice |
+| Sunday | Rest |
+
+The schedule is configured in `config.yaml`.
+
+## Repeat Prevention
+
+Topics are selected locally from `data/topic_catalog.yaml` before the AI call. This keeps prompts small and avoids spending tokens on topic selection.
+
+Used topics are saved in `data/topic_history.json`, which is kept to the newest 30 entries. The GitHub Actions workflow commits that file back to the repository after a successful run so the next scheduled run can avoid recent repeats.
 
 ## Features
 
-*   **AI-Powered Challenge Generation**: Leverages Google Gemini AI to create unique coding challenges, complete with problem statements, setup instructions, pro-tips, lessons, test files, and boilerplate code.
-*   **Multi-Language Support**: Configurable to generate challenges in various programming languages (e.g., Java, JavaScript, Python, Go), each with specific idiomatic contexts.
-*   **Pydantic Configuration Validation**: Ensures robust and type-safe configuration management using Pydantic v2.
-*   **Asynchronous Design**: Built with `asyncio` and `python-telegram-bot` (v20+) for efficient, non-blocking I/O operations.
-*   **Telegram Delivery**: Parses and sends the challenge summary (problem, pro-tip, lesson) as a text message, followed by the full Markdown file directly to a Telegram chat or channel.
-*   **GitHub Actions Automation**: Scheduled workflows to automatically generate and send challenges daily.
-
-## Project Structure
-
-```
-.
-├── .github/
-│   └── workflows/
-│       └── daily_challenge.yml  # GitHub Actions workflow for daily runs
-├── src/
-│   ├── main.py                  # Main application entry point
-│   ├── config/
-│   │   └── schema.py            # Pydantic schemas for configuration validation
-│   ├── services/
-│   │   ├── ai_engine.py         # Handles interaction with Google Gemini AI
-│   │   └── telegram_service.py  # Handles interaction with Telegram Bot API
-│   └── strategies/
-│       └── language_strategy.py # Strategy pattern for language-specific prompts
-├── config.yaml                  # Main configuration file for languages and settings
-└── requirements.txt             # Python dependencies
-```
+- OpenRouter-powered challenge generation through the OpenAI-compatible SDK
+- Telegram delivery of a readable summary plus the full Markdown file
+- Weekday-based learning tracks
+- Sunday rest day
+- Rolling 30-entry topic history
+- Compact prompts to reduce token usage
+- GitHub Actions automation
 
 ## Setup
 
-### Prerequisites
+### Requirements
 
-*   Python 3.11+
-*   Git
+- Python 3.11+
+- Telegram bot token
+- OpenRouter API key
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/daily-coding-challenge-telegram.git
-cd daily-coding-challenge-telegram
-```
-
-### 2. Install Dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure `config.yaml`
+Create a `.env` file for local runs:
 
-The `config.yaml` file defines the languages and their properties for challenge generation. You can customize this file to add or modify languages, difficulties, test frameworks, and setup commands.
-
-```yaml
-languages:
-  - name: "Java"
-    difficulty: "medium"
-    test_framework: "JUnit 5"
-    setup_cmd: "mvn test"
-  - name: "JavaScript"
-    difficulty: "medium"
-    test_framework: "Jest"
-    setup_cmd: "npm install && npm test"
-  - name: "Python"
-    difficulty: "easy"
-    test_framework: "unittest"
-    setup_cmd: "python3 -m unittest"
-  - name: "Go"
-    difficulty: "easy"
-    test_framework: "testing"
-    setup_cmd: "go test"
+```env
+TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
+TELEGRAM_CHAT_ID="YOUR_TELEGRAM_CHAT_ID"
+OPENROUTER_API_KEY="YOUR_OPENROUTER_API_KEY"
 ```
 
-### 4. Set Environment Variables / GitHub Secrets
-
-The bot requires the following environment variables to be set. For local testing, you can set them in your shell. For deployment with GitHub Actions, you *must* set them as repository secrets.
-
-*   **`TELEGRAM_TOKEN`**: Your Telegram Bot API token, obtained from [@BotFather](https://t.me/botfather).
-*   **`TELEGRAM_CHAT_ID`**: The ID of the Telegram chat or channel where the bot will send the challenges. You can get this by forwarding a message from your channel/group to [@RawDataBot](https://t.me/RawDataBot) or similar bots.
-*   **`GEMINI_API_KEY`**: Your API key for Google Gemini, obtained from [Google AI Studio](https://aistudio.google.com/app/apikey).
-
-#### For GitHub Actions:
-
-Go to your repository on GitHub -> `Settings` -> `Secrets and variables` -> `Actions` -> `New repository secret` and add each of the above variables.
-
-## Usage
-
-### Running Locally (for testing)
-
-To test the bot locally, ensure your environment variables are set, then run:
+Run locally:
 
 ```bash
 PYTHONPATH=. python src/main.py
 ```
 
-This will generate a challenge and send it to your configured Telegram chat.
+## GitHub Actions
 
-### Running with GitHub Actions
+Add these repository secrets:
 
-The `.github/workflows/daily_challenge.yml` workflow is configured to:
+- `TELEGRAM_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `OPENROUTER_API_KEY`
 
-*   Run daily at 8:00 AM UTC.
-*   Be manually triggerable via `workflow_dispatch`.
+The workflow runs Monday-Saturday at 8:00 AM Asia/Manila:
 
-To trigger a run manually:
-1.  Go to the `Actions` tab in your GitHub repository.
-2.  Select the "Daily Coding Challenge Bot" workflow.
-3.  Click "Run workflow" on the right side.
+```yaml
+cron: "0 0 * * 1-6"
+```
 
-## Contributing
+The workflow needs `contents: write` permission so it can commit `data/topic_history.json` after a successful challenge.
 
-Feel free to fork the repository, open issues, or submit pull requests.
+## Customizing Topics
 
-## License
+Edit `data/topic_catalog.yaml` to add or remove topics. Keep topics short because they are passed directly into the AI prompt.
 
-This project is open-sourced under the MIT License. See the LICENSE file for details.
+Edit `config.yaml` to adjust tracks, difficulty, framework, setup command, context, timezone, or weekly schedule.

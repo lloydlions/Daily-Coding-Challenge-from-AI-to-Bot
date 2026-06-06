@@ -1,5 +1,7 @@
-from openai import AsyncOpenAI
 import os
+
+from openai import AsyncOpenAI
+
 
 class AIEngine:
     def __init__(self):
@@ -12,40 +14,40 @@ class AIEngine:
         )
         self.model_name = "qwen/qwen-2.5-7b-instruct"
 
-    async def generate_challenge(self, lang: str, difficulty: str, framework: str, context: str) -> str:
+    async def generate_challenge(
+        self,
+        track: str,
+        topic: str,
+        lang: str,
+        difficulty: str,
+        framework: str,
+        setup_cmd: str,
+        context: str,
+    ) -> str:
         prompt = f"""
-        Generate a {difficulty} level programming challenge in {lang}. 
-        Language Context: {context}
+Create one concise daily coding challenge.
 
-        You MUST output the response in Markdown format using exactly this structure:
+Track: {track}
+Language: {lang}
+Difficulty: {difficulty}
+Topic: {topic}
+Test framework: {framework}
+Setup command: {setup_cmd}
+Context: {context}
 
-        ### 🧩 Daily Coding Challenge: [Creative Title]
-        **Language:** {lang} | **Difficulty:** {difficulty}
-        
-        ---
-        
-        ### 📝 Problem Statement
-        [Detailed description of the task]
-        
-        ### ⚙️ Setup & Dependencies
-        [Provide exact terminal commands or configuration to set up {framework}]
-        
-        ### 💡 Pro-Tip
-        [Provide a strategic hint on how to resolve the problem efficiently]
-        
-        ### 🎓 Lesson: [Key Concept]
-        [Explain a key language feature needed to solve this, e.g., the .toString() method, and show an example of how to use it.]
-        
-        ### 🧪 Test File
-        ```
-        // Provide exactly 10 assertions or fewer using {framework}
-        ```
-        
-        ### 🏗️ Boilerplate
-        ```
-        // Minimal starter code for the solution
-        ```
-        """
+Return Markdown using exactly these headings:
+### Daily Coding Challenge: [Creative Title]
+**Track:** {track} | **Language:** {lang} | **Difficulty:** {difficulty}
+### Problem Statement
+### Setup & Dependencies
+### Pro-Tip
+### Lesson: [Key Concept]
+### Test File
+### Boilerplate
+
+Keep it practical and compact. Use no more than 8 assertions.
+Do not include Selenium, browser automation, or UI automation.
+"""
         response = await self.client.chat.completions.create(
             model=self.model_name,
             messages=[{"role": "user", "content": prompt}],

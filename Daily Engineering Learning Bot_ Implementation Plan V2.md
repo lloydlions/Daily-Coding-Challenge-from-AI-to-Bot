@@ -1,169 +1,104 @@
-# **Daily Coding Challenge Bot Codebase**
+# Daily Engineering Learning Bot: Current Implementation Plan
 
-## **Code Review Summary**
+## Goal
 
-Overall, the implementation is highly robust. It effectively uses the Strategy pattern for language context, Pydantic (v2) for configuration validation, and python-telegram-bot (v20+) with proper asynchronous design.  
-**Recent Improvements Applied:** 
-- Migrated from `google-generativeai` to the new `google-genai` SDK and updated the model to `gemini-2.5-flash`.
-- Updated `telegram_service.py` to manage bot sessions with an `async with` block and added logic to extract the problem statement, pro-tip, and lesson into a separate Telegram text message to improve mobile readability.
+Generate one compact daily programming challenge through Telegram while keeping token usage low and avoiding recent topic repeats.
 
-## **1\. Project Layout [COMPLETED]**
+The learning path is intentionally broad but focused:
 
-/  
-├── .github/  
-│   └── workflows/  
-│       └── daily\_challenge.yml  
-├── src/  
-│   ├── \_\_init\_\_.py  
-│   ├── main.py  
-│   ├── config/  
-│   │   ├── \_\_init\_\_.py  
-│   │   └── schema.py  
-│   ├── services/  
-│   │   ├── \_\_init\_\_.py  
-│   │   ├── ai\_engine.py  
-│   │   └── telegram\_service.py  
-│   └── strategies/  
-│       ├── \_\_init\_\_.py  
-│       └── language\_strategy.py  
-├── config.yaml  
-├── .gitignore
-└── requirements.txt
+- Java Core
+- Quarkus
+- SQL
+- Python Data Basics
+- AI/API Mini Tasks
+- Review / Mixed Practice
 
-## **2\. Dependencies (requirements.txt) [COMPLETED]**
+Sunday is a rest day.
 
-google-genai>=0.1.0  
-python-telegram-bot>=20.7  
-pydantic>=2.5.3  
-PyYAML>=6.0.1
-python-dotenv>=1.0.0
+## Schedule
 
-## **3\. Configuration (config.yaml) [COMPLETED]**
+The schedule is configured in `config.yaml`.
 
-languages:  
-  \- name: "Java"  
-    difficulty: "medium"  
-    test\_framework: "JUnit 5"  
-    setup\_cmd: "mvn test"  
-  \- name: "JavaScript"  
-    difficulty: "medium"  
-    test\_framework: "Jest"  
-    setup\_cmd: "npm install && npm test"  
-  \- name: "Python"  
-    difficulty: "easy"  
-    test\_framework: "unittest"  
-    setup\_cmd: "python3 \-m unittest"  
-  \- name: "Go"  
-    difficulty: "easy"  
-    test\_framework: "testing"  
-    setup\_cmd: "go test"
+| Day | Track |
+| --- | --- |
+| Monday | Java Core |
+| Tuesday | Quarkus |
+| Wednesday | SQL |
+| Thursday | Python Data Basics |
+| Friday | AI/API Mini Task |
+| Saturday | Review / Mixed Practice |
+| Sunday | Rest |
 
-## **4\. Automation (.github/workflows/daily\_challenge.yml) [COMPLETED]**
+## Token Strategy
 
-name: Daily Coding Challenge Bot  
-on:  
-  schedule:  
-    \- cron: '0 8 \* \* \*' \# Runs at 8:00 AM UTC daily  
-  workflow\_dispatch:    \# Allows manual triggering  
-jobs:  
-  run-challenge-bot:  
-    runs-on: ubuntu-latest  
-    env:  
-      TELEGRAM\_TOKEN: ${{ secrets.TELEGRAM\_TOKEN }}  
-      TELEGRAM\_CHAT\_ID: ${{ secrets.TELEGRAM\_CHAT_ID }}  
-      GEMINI\_API\_KEY: ${{ secrets.GEMINI\_API\_KEY }}  
-      
-    steps:  
-      \- name: Checkout Repository  
-        uses: actions/checkout@v3  
-          
-      \- name: Setup Python 3.11  
-        uses: actions/setup-python@v4  
-        with:  
-          python-version: '3.11'  
-            
-      \- name: Install Dependencies  
-        run: pip install \-r requirements.txt  
-          
-      \- name: Execute Bot Generation  
-        run: PYTHONPATH=. python src/main.py
+The bot does not ask the model to choose a topic. The topic is selected locally from `data/topic_catalog.yaml`, then sent to the model in a compact prompt.
 
-## **5\. Source Code [COMPLETED]**
+This reduces token usage because the prompt only includes:
 
-### **src/config/schema.py [COMPLETED]**
+- track
+- language
+- difficulty
+- topic
+- test framework
+- setup command
+- short context
 
-### **src/strategies/language\_strategy.py [COMPLETED]**
+## Repeat Prevention
 
-### **src/services/ai\_engine.py [COMPLETED]**
-(Updated to use the new `google-genai` SDK and `gemini-2.5-flash` model for better performance and compatibility)
+`data/topic_history.json` stores the newest 30 generated topic entries.
 
-### **src/services/telegram\_service.py [COMPLETED]**
-(Updated to extract problem statement, pro-tip, and lesson as a text message before sending the Markdown file)
+The topic selector avoids topics already present in recent history for the same track. If every catalog topic for a track has already appeared in recent history, it allows reuse so the bot can keep running.
 
-### **src/main.py [COMPLETED]**
-(Updated to include `load_dotenv()` for local testing)
+History is updated only after Telegram delivery succeeds.
 
-## **6\. Documentation [COMPLETED]**
+## Persistence
 
-### **README.md [COMPLETED]**
+GitHub Actions commits `data/topic_history.json` back to the repository after each successful run.
 
-## **7\. Git Configuration [COMPLETED]**
+This is simpler and more reliable than artifacts or cache for this project because the next scheduled run can read the history directly from the checked-out repository.
 
-### **.gitignore [COMPLETED]**
+## GitHub Actions
 
-## **8\. Local Testing Setup [COMPLETED]**
+The workflow runs Monday-Saturday at 8:00 AM Asia/Manila:
 
-To test the bot locally, follow these steps:
-
-### **8.1. Create and Activate a Virtual Environment (Recommended)**
-
-It's best practice to use a virtual environment to manage project dependencies.
-
-*   **Create a virtual environment:**
-    ```bash
-    python -m venv venv
-    ```
-    (This creates a folder named `venv` in your project root.)
-
-*   **Activate the virtual environment:**
-    *   **On Linux/macOS:**
-        ```bash
-        source venv/bin/activate
-        ```
-    *   **On Windows (Command Prompt):**
-        ```bash
-        venv\Scripts\activate.bat
-        ```
-    *   **On Windows (PowerShell):**
-        ```bash
-        venv\Scripts\Activate.ps1
-        ```
-    You should see `(venv)` at the beginning of your terminal prompt, indicating the virtual environment is active.
-
-### **8.2. Install Dependencies**
-
-With your virtual environment activated, install all required packages:
-
-```bash
-pip install -r requirements.txt
+```yaml
+cron: "0 0 * * 1-6"
 ```
 
-### **8.3. Create the `.env` File**
+The workflow uses:
 
-In the root directory of your project (the same directory where `src/` and `config.yaml` are located), create a file named `.env` and add your credentials:
-
+```yaml
+permissions:
+  contents: write
 ```
-TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
-TELEGRAM_CHAT_ID="YOUR_TELEGRAM_CHAT_ID"
-GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
-```
-**Remember to replace the placeholder values** with your actual Telegram bot token, chat ID, and Gemini API key.
 
-### **8.4. Run the Bot Locally**
+Required secrets:
 
-With the virtual environment active and dependencies installed, you can now run the bot:
+- `TELEGRAM_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `OPENROUTER_API_KEY`
 
-```bash
-PYTHONPATH=. python src/main.py
-```
-This command will execute the bot, generate a challenge, and attempt to send it to your configured Telegram chat. You should see output in your terminal indicating the progress, and if successful, a message in your Telegram chat.
+## Main Flow
+
+1. Load `.env`, `config.yaml`, and `data/topic_catalog.yaml`.
+2. Determine the current weekday in the configured timezone.
+3. Exit if the day is configured as rest.
+4. Load the rolling topic history.
+5. Select a topic for the day's track.
+6. Generate a concise Markdown challenge with OpenRouter.
+7. Send the Telegram summary and full Markdown document.
+8. Append the topic to `data/topic_history.json`.
+9. Let GitHub Actions commit the updated history file.
+
+## Current Runtime Files
+
+- `src/main.py`
+- `src/config/schema.py`
+- `src/services/ai_engine.py`
+- `src/services/telegram_service.py`
+- `src/services/topic_selector.py`
+- `src/services/topic_store.py`
+- `config.yaml`
+- `data/topic_catalog.yaml`
+- `data/topic_history.json`
+- `.github/workflows/daily_challenge.yml`
