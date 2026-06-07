@@ -2,16 +2,18 @@
 
 ## Goal
 
-Generate one compact daily programming challenge through Telegram while keeping token usage low and avoiding recent topic repeats.
+Generate one compact daily learning challenge through Telegram while keeping token usage low and avoiding recent topic repeats.
 
-The learning path is intentionally broad but focused:
+The bot should stay standalone and schedule-driven. Changing priorities should only require editing `config.yaml` and `data/topic_catalog.yaml`, not rewriting application code.
 
-- Java Core
-- Quarkus
-- SQL
-- Python Data Basics
-- AI/API Mini Tasks
-- Review / Mixed Practice
+The current configured track is Python with foundational difficulty. It follows the early Python course phases as a concept guide while skipping already-known control-flow basics. It focuses on:
+
+- reading realistic small Python scripts across varied domains
+- practicing lists, dictionaries, sets, and tuples
+- translating JavaScript array-helper or Java stream habits into Python idioms
+- using comprehensions, `sorted`, `any`, `all`, `zip`, `enumerate`, `Counter`, and `defaultdict`
+- transforming JSON-like payloads, rows, logs, config data, and records into stable outputs
+- making practical script changes rather than toy exercises
 
 Sunday is a rest day.
 
@@ -21,12 +23,12 @@ The schedule is configured in `config.yaml`.
 
 | Day | Track |
 | --- | --- |
-| Monday | Java Core |
-| Tuesday | Quarkus |
-| Wednesday | SQL |
-| Thursday | Python Data Basics |
-| Friday | AI/API Mini Task |
-| Saturday | Review / Mixed Practice |
+| Monday | Python |
+| Tuesday | Python |
+| Wednesday | Python |
+| Thursday | Python |
+| Friday | Python |
+| Saturday | Python |
 | Sunday | Rest |
 
 ## Token Strategy

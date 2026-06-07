@@ -1,15 +1,23 @@
 timezone: "Asia/Manila"
 
 weekly_schedule:
-  monday: "java_core"
-  tuesday: "quarkus"
-  wednesday: "sql"
-  thursday: "python_data"
-  friday: "ai_api"
-  saturday: "review"
+  monday: "python"
+  tuesday: "python"
+  wednesday: "python"
+  thursday: "python"
+  friday: "python"
+  saturday: "python"
   sunday: null
 
 tracks:
+  - key: "python"
+    name: "Python"
+    language: "Python"
+    difficulty: "foundational"
+    test_framework: "pytest"
+    setup_cmd: "python -m pytest"
+    context: "Assume programming experience in Java or JavaScript and basic comfort with functions, if/else, match, and loops. Focus on getting comfortable coding Python through collections, data-shape transformations, standard-library helpers, and idioms similar to map/filter/sort/stream operations. Use varied realistic mini-scenarios, not one repeated domain, and avoid toy beginner drills."
+
   - key: "java_core"
     name: "Java Core"
     language: "Java"

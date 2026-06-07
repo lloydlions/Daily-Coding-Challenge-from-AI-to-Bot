@@ -1,4 +1,37 @@
 tracks:
+  python:
+    topics:
+      - clean noisy string values with list set and sorted
+      - transform a list of dictionaries into summary dictionaries
+      - filter invalid records using comprehensions
+      - map raw values to categories with dictionary lookups
+      - group records by category with defaultdict
+      - count duplicate values with Counter
+      - sort dictionaries with sorted and key functions
+      - build stable JSON-ready output from sets and dictionaries
+      - compare list comprehension with map and filter
+      - use any and all for validation rules
+      - use enumerate when reporting validation errors with indexes
+      - use zip to combine field names and extracted values
+      - unpack tuples from parsed rows
+      - unpack dictionaries into function calls with double star syntax
+      - use dictionary comprehensions to reshape API payloads
+      - use set operations to compare expected and actual values
+      - flatten nested lists from grouped data
+      - partition records into valid and invalid collections
+      - safely read optional dictionary fields with get
+      - choose between list tuple set and dict for a data shape
+      - avoid mutating input dictionaries during transformation
+      - debug shallow copy issues in nested payloads
+      - parse JSON text into Python dictionaries and lists
+      - serialize deterministic output with json dumps sort keys
+      - use pathlib to read a small input file
+      - use dataclasses for internal parsed records
+      - add type hints for collection-heavy functions
+      - refactor JavaScript-style array helper logic into Python idioms
+      - refactor Java stream style transformations into Python idioms
+      - explain a small Python script from imports to output
+
   java_core:
     topics:
       - records and immutability

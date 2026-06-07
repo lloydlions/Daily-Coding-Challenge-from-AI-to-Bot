@@ -25,7 +25,7 @@ class AIEngine:
         context: str,
     ) -> str:
         prompt = f"""
-Create one concise daily coding challenge.
+Create one concise daily learning challenge.
 
 Track: {track}
 Language: {lang}
@@ -45,7 +45,10 @@ Return Markdown using exactly these headings:
 ### Test File
 ### Boilerplate
 
-Keep it practical and compact. Use no more than 8 assertions.
+If the topic is code-reading, include a short realistic script to inspect, ask the learner to explain behavior or predict output, then make a small practical change.
+Use varied realistic mini-scenarios such as API payloads, logs, CSV rows, config data, carts, tasks, scores, user records, file paths, or validation reports. Do not repeat one fixed sample app or domain.
+Avoid trivial tasks like creating variables, adding two numbers, basic loop/if drills, isolated function-definition drills, or syntax examples with no practical data transformation.
+Keep it practical and compact. Use no more than 6 assertions.
 Do not include Selenium, browser automation, or UI automation.
 """
         response = await self.client.chat.completions.create(
