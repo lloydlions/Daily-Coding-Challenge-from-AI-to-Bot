@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "date": "2026-06-08",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "parse JSON text into Python dictionaries and lists"
+  }
+]
