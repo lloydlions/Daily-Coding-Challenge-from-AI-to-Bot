@@ -6,5 +6,13 @@
     "language": "Python",
     "difficulty": "foundational",
     "topic": "parse JSON text into Python dictionaries and lists"
+  },
+  {
+    "date": "2026-06-09",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "build stable JSON-ready output from sets and dictionaries"
   }
 ]
