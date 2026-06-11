@@ -22,5 +22,13 @@
     "language": "Python",
     "difficulty": "foundational",
     "topic": "use any and all for validation rules"
+  },
+  {
+    "date": "2026-06-11",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "clean noisy string values with list set and sorted"
   }
 ]
