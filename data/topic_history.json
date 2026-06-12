@@ -30,5 +30,13 @@
     "language": "Python",
     "difficulty": "foundational",
     "topic": "clean noisy string values with list set and sorted"
+  },
+  {
+    "date": "2026-06-12",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "map raw values to categories with dictionary lookups"
   }
 ]
