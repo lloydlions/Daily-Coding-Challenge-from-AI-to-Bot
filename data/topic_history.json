@@ -38,5 +38,13 @@
     "language": "Python",
     "difficulty": "foundational",
     "topic": "map raw values to categories with dictionary lookups"
+  },
+  {
+    "date": "2026-06-13",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "use zip to combine field names and extracted values"
   }
 ]
