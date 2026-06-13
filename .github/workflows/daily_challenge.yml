@@ -1,8 +1,8 @@
 name: Daily Coding Challenge Bot
 
 on:
-  schedule:
-    - cron: "0 0 * * 1-6" # Monday-Saturday at 8:00 AM Asia/Manila
+#  schedule:
+#    - cron: "0 0 * * 1-6" # Monday-Saturday at 8:00 AM Asia/Manila
   workflow_dispatch:
 
 permissions:
