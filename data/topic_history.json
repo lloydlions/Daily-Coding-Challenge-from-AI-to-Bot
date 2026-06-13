@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "date": "2026-06-08",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "parse JSON text into Python dictionaries and lists"
+  },
+  {
+    "date": "2026-06-09",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "build stable JSON-ready output from sets and dictionaries"
+  },
+  {
+    "date": "2026-06-10",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "use any and all for validation rules"
+  },
+  {
+    "date": "2026-06-11",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "clean noisy string values with list set and sorted"
+  },
+  {
+    "date": "2026-06-12",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "map raw values to categories with dictionary lookups"
+  },
+  {
+    "date": "2026-06-13",
+    "track": "python",
+    "track_name": "Python",
+    "language": "Python",
+    "difficulty": "foundational",
+    "topic": "use zip to combine field names and extracted values"
+  }
+]
